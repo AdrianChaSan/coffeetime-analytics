@@ -1,0 +1,201 @@
+{
+  "dataset": {
+    "n_samples": 1865,
+    "return_rate": 0.3651,
+    "avg_spent_mean": 21.4,
+    "avg_spent_median": 21.31,
+    "numeric_summary": {
+      "age": {
+        "min": 18.0,
+        "median": 42.0,
+        "mean": 41.29,
+        "max": 64.0
+      },
+      "visit_frequency": {
+        "min": 1.0,
+        "median": 3.5,
+        "mean": 3.56,
+        "max": 7.0
+      },
+      "satisfaction_score": {
+        "min": 1.0,
+        "median": 3.0,
+        "mean": 3.05,
+        "max": 5.0
+      },
+      "total_monthly_spent": {
+        "min": 53.2,
+        "median": 297.78,
+        "mean": 310.62,
+        "max": 855.04
+      },
+      "promo_used": {
+        "min": 0.0,
+        "median": 0.0,
+        "mean": 0.35,
+        "max": 1.0
+      },
+      "avg_wait_time_min": {
+        "min": 1.0,
+        "median": 7.0,
+        "mean": 7.1,
+        "max": 15.6
+      },
+      "days_since_last_visit": {
+        "min": 0.0,
+        "median": 8.0,
+        "mean": 8.51,
+        "max": 30.0
+      },
+      "avg_spent": {
+        "min": 8.37,
+        "median": 21.31,
+        "mean": 21.4,
+        "max": 37.31
+      }
+    },
+    "categories": {
+      "coffee_type_preferred": [
+        "Cappuccino",
+        "Cold Brew",
+        "Espresso",
+        "Latte"
+      ],
+      "time_of_visit": [
+        "Manana",
+        "Noche",
+        "Tarde"
+      ],
+      "store_location": [
+        "Aeropuerto",
+        "Centro",
+        "Mall",
+        "Residencial"
+      ],
+      "membership_tier": [
+        "Gold",
+        "Platinum",
+        "Regular",
+        "Silver"
+      ]
+    }
+  },
+  "classification": {
+    "model_name": "GradientBoostingClassifier",
+    "target": "return_next_week",
+    "cv_folds": 5,
+    "f1_cv_mean": 0.5235,
+    "f1_oof": 0.524,
+    "accuracy_oof": 0.7019,
+    "precision_pos_oof": 0.6283,
+    "recall_pos_oof": 0.4493,
+    "confusion_matrix": [
+      [
+        1003,
+        181
+      ],
+      [
+        375,
+        306
+      ]
+    ],
+    "top_features": [
+      {
+        "feature": "satisfaction_score",
+        "label": "Satisfacción",
+        "importance": 0.2562
+      },
+      {
+        "feature": "total_monthly_spent",
+        "label": "Gasto mensual total (USD)",
+        "importance": 0.2045
+      },
+      {
+        "feature": "visit_frequency",
+        "label": "Frecuencia de visitas",
+        "importance": 0.1462
+      },
+      {
+        "feature": "days_since_last_visit",
+        "label": "Días desde última visita",
+        "importance": 0.1249
+      },
+      {
+        "feature": "avg_wait_time_min",
+        "label": "Tiempo de espera (min)",
+        "importance": 0.1054
+      },
+      {
+        "feature": "age",
+        "label": "Edad",
+        "importance": 0.0718
+      },
+      {
+        "feature": "membership_tier_Regular",
+        "label": "Membresía: Regular",
+        "importance": 0.026
+      },
+      {
+        "feature": "promo_used",
+        "label": "Uso de promoción",
+        "importance": 0.0183
+      }
+    ]
+  },
+  "regression": {
+    "model_name": "RandomForestRegressor",
+    "target": "avg_spent",
+    "cv_folds": 5,
+    "rmse_oof": 0.7509,
+    "mae_oof": 0.4228,
+    "r2_oof": 0.9652,
+    "top_features": [
+      {
+        "feature": "total_monthly_spent",
+        "label": "Gasto mensual total (USD)",
+        "importance": 0.6383
+      },
+      {
+        "feature": "visit_frequency",
+        "label": "Frecuencia de visitas",
+        "importance": 0.2973
+      },
+      {
+        "feature": "age",
+        "label": "Edad",
+        "importance": 0.0481
+      },
+      {
+        "feature": "avg_wait_time_min",
+        "label": "Tiempo de espera (min)",
+        "importance": 0.0036
+      },
+      {
+        "feature": "days_since_last_visit",
+        "label": "Días desde última visita",
+        "importance": 0.003
+      },
+      {
+        "feature": "satisfaction_score",
+        "label": "Satisfacción",
+        "importance": 0.0027
+      },
+      {
+        "feature": "membership_tier_Regular",
+        "label": "Membresía: Regular",
+        "importance": 0.0008
+      },
+      {
+        "feature": "store_location_Mall",
+        "label": "Local: Mall",
+        "importance": 0.0007
+      }
+    ]
+  },
+  "versions": {
+    "scikit_learn": "1.9.1",
+    "pandas": "3.1.1",
+    "numpy": "2.5.5",
+    "joblib": "1.6.0"
+  }
+}

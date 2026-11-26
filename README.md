@@ -1,33 +1,40 @@
-# CoffeeTime Café — Predicción de Retorno de Clientes
+# CoffeeTime Café — Analítica Predictiva de Clientes
 
-Aplicación web construida con **Streamlit** para predecir si un cliente de **CoffeeTime Café** regresará durante la próxima semana (`return_next_week`), utilizando un modelo de clasificación preentrenado con **scikit-learn**.
+Data Product desplegado con **Streamlit** para **CoffeeTime Café** (etapa de Despliegue en **CRISP-DM**). Integra dos modelos de Machine Learning preentrenados para predecir simultáneamente si un cliente regresará la próxima semana (`return_next_week`) y cuál será su ticket promedio estimado (`avg_spent`), acompañados de recomendaciones accionables de retención.
 
-## Descripción del proyecto
+## Funcionalidades principales
 
-- **Problema:** Clasificación binaria (`1` = el cliente regresa la próxima semana, `0` = no regresa).
-- **Dataset:** 1,865 registros limpios de comportamiento de clientes (`coffee_sales_clean.csv`, 36.5% clase positiva / 63.5% clase negativa).
-- **Modelo desplegado:** `Pipeline` (`ColumnTransformer` con `OneHotEncoder` + `GradientBoostingClassifier(n_estimators=100, random_state=42)`), guardado en `model.joblib`.
-- **Evaluación (validación cruzada estratificada, k=5):**
-  - F1-Score promedio: `0.5239`
-  - Accuracy: `0.70`
-  - Clase `1` (Regresa): Precision `0.63`, Recall `0.45`, F1 `0.52`
-  - Clase `0` (No regresa): Precision `0.73`, Recall `0.85`, F1 `0.78`
+1. **Predicción Individual (`🔮`):**
+   - Perfiles de prueba en un clic (*Cliente VIP frecuente*, *Cliente en riesgo*, *Cliente promedio*) y formulario completo con las 11 variables del modelo.
+   - Predicción dual: probabilidad de retorno semanal, nivel de riesgo de abandono y ticket promedio estimado (USD).
+   - Umbral de clasificación configurable desde la barra lateral (`0.20` a `0.80`) para equilibrar precisión y recall según el costo de campaña.
+   - Recomendaciones comerciales personalizadas y tabla comparativa contra la mediana histórica.
+2. **Predicción por Lote — Batch CSV (`📂`):**
+   - Carga de archivos `.csv` con múltiples clientes (más plantilla descargable y dataset demo integrado de 5 clientes).
+   - Resumen ejecutivo de KPIs del lote y descarga del CSV enriquecido con probabilidades, riesgo, ticket estimado y acción sugerida.
+3. **Análisis de Modelos (`📊`):**
+   - Métricas de validación cruzada (k=5), matriz de confusión y ranking de variables más influyentes para clasificación y regresión.
 
-> **Nota sobre interpretación:** Dado que el conjunto de datos presenta desbalance de clases y el recall de la clase positiva es moderado (`0.45`), la aplicación muestra tanto la clase estimada como la probabilidad predicha (`predict_proba`) para apoyar la toma de decisiones de fidelización.
+## Modelos y métricas (validación cruzada k=5, N = 1,865)
 
-## Variables de entrada
+| Tarea | Variable objetivo | Modelo | Métricas principales | Artefacto |
+| :--- | :--- | :--- | :--- | :--- |
+| **Clasificación** | `return_next_week` | `GradientBoostingClassifier` | F1 CV: `0.5235` · Accuracy: `70.2%` · Precision(1): `62.8%` · Recall(1): `44.9%` | `model.joblib` |
+| **Regresión** | `avg_spent` (USD) | `RandomForestRegressor` | RMSE: `$0.75 USD` · MAE: `$0.42 USD` · R²: `0.9652` | `reg_model.joblib` |
 
-- **Numéricas:** `age`, `visit_frequency`, `satisfaction_score`, `total_monthly_spent`, `promo_used`, `avg_wait_time_min`, `days_since_last_visit`.
-- **Categóricas:** `coffee_type_preferred` (`Espresso`, `Cappuccino`, `Latte`, `Cold Brew`), `time_of_visit` (`Manana`, `Tarde`, `Noche`), `store_location` (`Mall`, `Residencial`, `Centro`, `Aeropuerto`), `membership_tier` (`Regular`, `Silver`, `Gold`, `Platinum`).
+> **Nota analítica:** El dataset tiene `36.5%` de casos positivos (`return_next_week = 1`). Por ello la app expone la probabilidad estimada (`predict_proba`) y un control de umbral en la barra lateral para adaptar la sensibilidad a campañas de fidelización.
 
 ## Estructura del repositorio
 
 ```text
 .
-├── app.py              # Aplicación web en Streamlit
-├── model.joblib        # Pipeline entrenado (preprocesamiento + GradientBoostingClassifier)
-├── CoffeeTime.ipynb    # Notebook de análisis, comparación de modelos y exportación
-├── requirements.txt    # Dependencias fijadas para despliegue
+├── app.py                # Aplicación web en Streamlit (3 pestañas)
+├── train_model.py        # Script reproducible de entrenamiento y exportación
+├── model.joblib          # Pipeline de clasificación (GradientBoostingClassifier)
+├── reg_model.joblib      # Pipeline de regresión (RandomForestRegressor)
+├── model_metadata.json   # Métricas CV, importancia de variables y medianas agregadas
+├── CoffeeTime.ipynb      # Notebook exploratorio y comparativa de modelos
+├── requirements.txt      # Dependencias fijadas para despliegue
 ├── .gitignore
 └── README.md
 ```
@@ -38,6 +45,11 @@ Aplicación web construida con **Streamlit** para predecir si un cliente de **Co
 python -m venv .venv
 source .venv/bin/activate  # En Windows: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+
+# (Opcional) Reentrenar modelos si cuentas con coffee_sales_clean.csv
+python train_model.py
+
+# Iniciar aplicación web
 streamlit run app.py
 ```
 
@@ -47,4 +59,4 @@ streamlit run app.py
 2. Configurar:
    - **Branch:** `main`
    - **Main file path:** `app.py`
-3. Hacer clic en **Deploy** para generar la URL pública `.streamlit.app`.
+3. Presionar **Deploy** para obtener la URL pública `.streamlit.app`.
