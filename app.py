@@ -30,7 +30,7 @@ MEMBERSHIP_OPTIONS = ["Regular", "Silver", "Gold", "Platinum"]
 
 PRESETS = {
     "vip": {
-        "label": "🌟 Cliente VIP frecuente",
+        "label": "Cliente VIP frecuente",
         "age": 34,
         "visit_frequency": 6.0,
         "satisfaction_score": 5,
@@ -44,7 +44,7 @@ PRESETS = {
         "membership_tier": "Platinum",
     },
     "riesgo": {
-        "label": "⚠️ Cliente en riesgo",
+        "label": "Cliente en riesgo",
         "age": 52,
         "visit_frequency": 1.5,
         "satisfaction_score": 2,
@@ -58,7 +58,7 @@ PRESETS = {
         "membership_tier": "Regular",
     },
     "promedio": {
-        "label": "☕ Cliente promedio",
+        "label": "Cliente promedio",
         "age": 42,
         "visit_frequency": 3.5,
         "satisfaction_score": 3,
@@ -75,7 +75,6 @@ PRESETS = {
 
 st.set_page_config(
     page_title="CoffeeTime Café | Analítica Predictiva",
-    page_icon="☕",
     layout="wide",
 )
 
@@ -281,7 +280,7 @@ init_form_state()
 
 # --- Sidebar ---
 with st.sidebar:
-    st.title("☕ CoffeeTime Café")
+    st.title("CoffeeTime Café")
     st.caption("Data Product — Etapa de Despliegue (CRISP-DM)")
     st.divider()
 
@@ -311,14 +310,14 @@ with st.sidebar:
     )
 
 # --- Header ---
-st.title("☕ CoffeeTime Café — Analítica Predictiva de Clientes")
+st.title("CoffeeTime Café — Analítica Predictiva de Clientes")
 st.write(
     "Estima simultáneamente la **probabilidad de retorno semanal** (`return_next_week`) y el "
     "**ticket promedio esperado** (`avg_spent`), junto con recomendaciones accionables de retención."
 )
 
 tab_individual, tab_batch, tab_models = st.tabs(
-    ["🔮 Predicción Individual", "📂 Predicción por Lote (CSV)", "📊 Análisis de Modelos"]
+    ["Predicción Individual", "Predicción por Lote (CSV)", "Análisis de Modelos"]
 )
 
 # ==================== TAB 1: INDIVIDUAL ====================
@@ -524,7 +523,7 @@ with tab_batch:
     b1, b2 = st.columns([1, 2])
     with b1:
         st.download_button(
-            "⬇️ Descargar plantilla CSV de ejemplo",
+            "Descargar plantilla CSV",
             data=sample_df.to_csv(index=False).encode("utf-8"),
             file_name="clientes_ejemplo_coffeetime.csv",
             mime="text/csv",
@@ -563,7 +562,7 @@ with tab_batch:
 
             st.dataframe(results_df, width="stretch", hide_index=True)
             st.download_button(
-                "⬇️ Descargar resultados en CSV",
+                "Descargar resultados en CSV",
                 data=results_df.to_csv(index=False).encode("utf-8"),
                 file_name="predicciones_coffeetime.csv",
                 mime="text/csv",

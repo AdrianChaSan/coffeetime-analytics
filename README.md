@@ -4,15 +4,15 @@ Data Product desplegado con **Streamlit** para **CoffeeTime Café** (etapa de De
 
 ## Funcionalidades principales
 
-1. **Predicción Individual (`🔮`):**
+1. **Predicción Individual:**
    - Perfiles de prueba en un clic (*Cliente VIP frecuente*, *Cliente en riesgo*, *Cliente promedio*) y formulario completo con las 11 variables del modelo.
    - Predicción dual: probabilidad de retorno semanal, nivel de riesgo de abandono y ticket promedio estimado (USD).
    - Umbral de clasificación configurable desde la barra lateral (`0.20` a `0.80`) para equilibrar precisión y recall según el costo de campaña.
    - Recomendaciones comerciales personalizadas y tabla comparativa contra la mediana histórica.
-2. **Predicción por Lote — Batch CSV (`📂`):**
+2. **Predicción por Lote — Batch CSV:**
    - Carga de archivos `.csv` con múltiples clientes (más plantilla descargable y dataset demo integrado de 5 clientes).
    - Resumen ejecutivo de KPIs del lote y descarga del CSV enriquecido con probabilidades, riesgo, ticket estimado y acción sugerida.
-3. **Análisis de Modelos (`📊`):**
+3. **Análisis de Modelos:**
    - Métricas de validación cruzada (k=5), matriz de confusión y ranking de variables más influyentes para clasificación y regresión.
 
 ## Modelos y métricas (validación cruzada k=5, N = 1,865)
