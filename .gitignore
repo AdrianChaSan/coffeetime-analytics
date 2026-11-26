@@ -3,7 +3,5 @@ venv/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+data/
 *.csv
-*.docx
-*.pdf
-coffee time/

@@ -32,8 +32,9 @@ from sklearn.model_selection import KFold, StratifiedKFold, cross_val_predict, c
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
-BASE_DIR = Path(__file__).resolve().parent
-DATA_PATH = BASE_DIR / "coffee_sales_clean.csv"
+ROOT_DIR = Path(__file__).resolve().parent.parent
+DATA_PATH = ROOT_DIR / "data" / "coffee_sales_clean.csv"
+ARTIFACTS_DIR = ROOT_DIR / "artifacts"
 
 FEATURES = [
     "age",
@@ -121,6 +122,7 @@ def main() -> None:
     if not DATA_PATH.exists():
         raise FileNotFoundError(f"No se encontró el dataset en {DATA_PATH}")
 
+    ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(DATA_PATH)
     X = df[FEATURES]
     y_clf = df["return_next_week"]
@@ -139,7 +141,7 @@ def main() -> None:
     cm = confusion_matrix(y_clf, y_clf_oof)
 
     clf_pipeline.fit(X, y_clf)
-    joblib.dump(clf_pipeline, BASE_DIR / "model.joblib", compress=3)
+    joblib.dump(clf_pipeline, ARTIFACTS_DIR / "model.joblib", compress=3)
 
     # 2. Modelo de regresión (Random Forest Regressor)
     reg_pipeline = Pipeline(
@@ -163,7 +165,7 @@ def main() -> None:
     reg_r2 = float(r2_score(y_reg, y_reg_oof))
 
     reg_pipeline.fit(X, y_reg)
-    joblib.dump(reg_pipeline, BASE_DIR / "reg_model.joblib", compress=3)
+    joblib.dump(reg_pipeline, ARTIFACTS_DIR / "reg_model.joblib", compress=3)
 
     # 3. Metadatos y estadísticas agregadas para la app
     numeric_summary = {}
@@ -214,13 +216,13 @@ def main() -> None:
         },
     }
 
-    with open(BASE_DIR / "model_metadata.json", "w", encoding="utf-8") as f:
+    with open(ARTIFACTS_DIR / "model_metadata.json", "w", encoding="utf-8") as f:
         json.dump(metadata, f, indent=2, ensure_ascii=False)
 
-    print("Artefactos generados correctamente:")
-    print(f"  - model.joblib      (F1 CV: {metadata['classification']['f1_cv_mean']:.4f}, Acc: {metadata['classification']['accuracy_oof']:.4f})")
-    print(f"  - reg_model.joblib  (RMSE OOF: {metadata['regression']['rmse_oof']:.4f} USD, R2: {metadata['regression']['r2_oof']:.4f})")
-    print("  - model_metadata.json")
+    print("Artefactos generados correctamente en artifacts/:")
+    print(f"  - artifacts/model.joblib      (F1 CV: {metadata['classification']['f1_cv_mean']:.4f}, Acc: {metadata['classification']['accuracy_oof']:.4f})")
+    print(f"  - artifacts/reg_model.joblib  (RMSE OOF: {metadata['regression']['rmse_oof']:.4f} USD, R2: {metadata['regression']['r2_oof']:.4f})")
+    print("  - artifacts/model_metadata.json")
 
 
 if __name__ == "__main__":

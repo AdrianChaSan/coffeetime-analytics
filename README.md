@@ -19,8 +19,8 @@ Data Product desplegado con **Streamlit** para **CoffeeTime Café** (etapa de De
 
 | Tarea | Variable objetivo | Modelo | Métricas principales | Artefacto |
 | :--- | :--- | :--- | :--- | :--- |
-| **Clasificación** | `return_next_week` | `GradientBoostingClassifier` | F1 CV: `0.5235` · Accuracy: `70.2%` · Precision(1): `62.8%` · Recall(1): `44.9%` | `model.joblib` |
-| **Regresión** | `avg_spent` (USD) | `RandomForestRegressor` | RMSE: `$0.75 USD` · MAE: `$0.42 USD` · R²: `0.9652` | `reg_model.joblib` |
+| **Clasificación** | `return_next_week` | `GradientBoostingClassifier` | F1 CV: `0.5235` · Accuracy: `70.2%` · Precision(1): `62.8%` · Recall(1): `44.9%` | `artifacts/model.joblib` |
+| **Regresión** | `avg_spent` (USD) | `RandomForestRegressor` | RMSE: `$0.75 USD` · MAE: `$0.42 USD` · R²: `0.9652` | `artifacts/reg_model.joblib` |
 
 > **Nota analítica:** El dataset tiene `36.5%` de casos positivos (`return_next_week = 1`). Por ello la app expone la probabilidad estimada (`predict_proba`) y un control de umbral en la barra lateral para adaptar la sensibilidad a campañas de fidelización.
 
@@ -28,15 +28,18 @@ Data Product desplegado con **Streamlit** para **CoffeeTime Café** (etapa de De
 
 ```text
 .
-├── app.py                # Aplicación web en Streamlit (3 pestañas)
-├── train_model.py        # Script reproducible de entrenamiento y exportación
-├── model.joblib          # Pipeline de clasificación (GradientBoostingClassifier)
-├── reg_model.joblib      # Pipeline de regresión (RandomForestRegressor)
-├── model_metadata.json   # Métricas CV, importancia de variables y medianas agregadas
-├── CoffeeTime.ipynb      # Notebook exploratorio y comparativa de modelos
-├── requirements.txt      # Dependencias fijadas para despliegue
+├── app.py                        # Aplicación web en Streamlit (3 pestañas)
+├── requirements.txt              # Dependencias fijadas para despliegue
+├── README.md                     # Documentación del proyecto
 ├── .gitignore
-└── README.md
+├── artifacts/
+│   ├── model.joblib              # Pipeline de clasificación (GradientBoostingClassifier)
+│   ├── reg_model.joblib          # Pipeline de regresión (RandomForestRegressor)
+│   └── model_metadata.json       # Métricas CV, importancia de variables y medianas agregadas
+├── src/
+│   └── train_model.py            # Script reproducible de entrenamiento y exportación
+└── notebooks/
+    └── CoffeeTime.ipynb          # Notebook exploratorio y comparativa de modelos
 ```
 
 ## Ejecución local
@@ -46,8 +49,8 @@ python -m venv .venv
 source .venv/bin/activate  # En Windows: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 
-# (Opcional) Reentrenar modelos si cuentas con coffee_sales_clean.csv
-python train_model.py
+# (Opcional) Reentrenar modelos si cuentas con data/coffee_sales_clean.csv
+python src/train_model.py
 
 # Iniciar aplicación web
 streamlit run app.py

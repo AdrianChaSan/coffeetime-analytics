@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 
 BASE_DIR = Path(__file__).resolve().parent
+ARTIFACTS_DIR = BASE_DIR / "artifacts"
 
 REQUIRED_FEATURES = [
     "age",
@@ -81,9 +82,9 @@ st.set_page_config(
 
 @st.cache_resource
 def load_artifacts():
-    clf_model = joblib.load(BASE_DIR / "model.joblib")
-    reg_model = joblib.load(BASE_DIR / "reg_model.joblib")
-    with open(BASE_DIR / "model_metadata.json", encoding="utf-8") as f:
+    clf_model = joblib.load(ARTIFACTS_DIR / "model.joblib")
+    reg_model = joblib.load(ARTIFACTS_DIR / "reg_model.joblib")
+    with open(ARTIFACTS_DIR / "model_metadata.json", encoding="utf-8") as f:
         metadata = json.load(f)
     return clf_model, reg_model, metadata
 
